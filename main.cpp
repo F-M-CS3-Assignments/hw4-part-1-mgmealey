@@ -57,9 +57,38 @@ int find_next_dividend(vector<int> input, int start){
 	return -1;
 }
 
-vector<int> biggest_divisible_conglomerate(vector<int> input){
-	vector<int> sorted_vector = sort(input);
-	return sorted_vector;
+vector<int> sub_vec(vector<int> vec, int start){
+	vector<int> answer;
+	for (int i = start; i < vec.size(); ++i){
+		answer.push_back(vec[i]);
+	}	
+	return answer;
+}
+
+vector<int> longest_vector(vector<vector<int>> candidates){
+	
+	int max_length = candidates[0].size();
+	int idx_longest = 0;
+
+	for (int i = 0; i < candidates.size(); ++i){
+		if(candidates[i].size() > max_length){
+			max_length = candidates[i].size();
+			idx_longest = i;
+		}
+	}
+	return candidates[idx_longest];
+}
+
+vector<int> combine(vector<int> l, vector<int> r){
+	vector<int> combined;
+	for (int i = 0; i < l.size(); ++i){
+		combined.push_back(l[i]);
+	}
+	for(int i = 0; i < r.size(); ++i){
+		combined.push_back(r[i]);
+	}
+
+	return combined;
 }
 
 vector<int> bdc_helper(vector<int> input){
@@ -69,12 +98,25 @@ vector<int> bdc_helper(vector<int> input){
 
 	vector<vector<int>> candidates;
 
-	for (int i = 0; i < input.size() - 1; ++i)
-		int l = input[i];
+	for (int i = 0; i < input.size() - 1; ++i){
+		vector<int> l;
+		l.push_back(input[i]);
 		int j = find_next_dividend(input, (i + 1));
-		
 
+		vector<int> rin = sub_vec(input, j);
+		vector<int> r = bdc_helper(rin);
+		vector<int> cand_v = combine(l, r);
+		candidates.push_back(cand_v);
+	}
+
+	return longest_vector(candidates);
 }
+
+vector<int> biggest_divisible_conglomerate(vector<int> input){
+	vector<int> sorted_vector = sort(input);
+	return sorted_vector;
+}
+
 void tests(){
 	//test sort
 	cout << "Testing sort" << endl;
@@ -83,6 +125,10 @@ void tests(){
 	assert(vec_to_string(sorted_vec) == "[2, 7, 8, 14, 22, 24, 28, 56]");
 	cout << "tests passed!" << endl;
 	
+
+	cout << "testing find dividend" << endl;
+	int next_divident = find_next_dividend(sorted_vec, 0);
+	assert(next_divident == 8);
 }
 
 
