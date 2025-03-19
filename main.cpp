@@ -46,12 +46,35 @@ vector<int> sort(vector<int> input){
 	return sorted_vec;
 }
 
+//From the position i+1, find the position of next number in the input vector which
+//is divisible by input[i]
+int find_next_dividend(vector<int> input, int start){
+	for (int i = (start  + 1); i < input.size(); ++i){
+		if (input[i] % start == 0){
+			return i;
+		}
+	}
+	return -1;
+}
+
 vector<int> biggest_divisible_conglomerate(vector<int> input){
 	vector<int> sorted_vector = sort(input);
 	return sorted_vector;
 }
 
+vector<int> bdc_helper(vector<int> input){
+	if (input.size() == 1 || input.size() == 0){
+		return input;
+	}
 
+	vector<vector<int>> candidates;
+
+	for (int i = 0; i < input.size() - 1; ++i)
+		int l = input[i];
+		int j = find_next_dividend(input, (i + 1));
+		
+
+}
 void tests(){
 	//test sort
 	cout << "Testing sort" << endl;
