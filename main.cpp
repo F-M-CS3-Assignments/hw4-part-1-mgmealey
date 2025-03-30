@@ -26,7 +26,6 @@ string vec_to_string(const vector<int>& v){
 vector<int> sort(vector<int> input){
 
 	vector<int> sorted_vec;
-	int start = 0;
 
 	while (!input.empty()){
 		//first find smallest number in sequence
